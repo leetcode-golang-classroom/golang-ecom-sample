@@ -155,3 +155,25 @@ func HashPassword(password string) (string, error) {
 	return string(hash), nil
 }
 ```
+### setup migrations
+
+```shell
+go get github.com/golang-migrate/migrate/v4
+```
+
+install cli
+```shell
+brew install golang-migrate
+```
+
+setup makefile comman
+```makefile
+migration:
+  @migrate create -ext sql -dir cmd/migrate/migrations $(filter-out $@, $(MAKECMDGOALS))
+
+migrate-up:
+	@go run cmd/migrate/main.go up
+
+migrate-down:
+  @go run cmd/migrate/main.go down
+```
