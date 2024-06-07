@@ -13,6 +13,9 @@ type Config struct {
 	MYSQL_USER     string `mapstructure:"MYSQL_USER"`
 	MYSQL_PASSWORD string `mapstructure:"MYSQL_PASSWORD"`
 	MYSQL_ADDR     string `mapstructure:"MYSQL_ADDR"`
+
+	JWTSecret              string `mapstructure:"JWT_SECRET"`
+	JWTExpirationInSeconds int64  `mapstructure:"JWT_EXPIRATION_IN_SECONDS"`
 }
 
 var C *Config
@@ -24,7 +27,8 @@ func init() {
 	v.SetConfigType("env")
 	err := v.ReadInConfig()
 	if err != nil {
-		failOnError(err, "Failed to read config")
+		return
+		// failOnError(err, "Failed to read config")
 	}
 	v.AutomaticEnv()
 
