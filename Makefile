@@ -6,5 +6,8 @@ build:
 run: build
 	@./bin/main
 
+coverage:
+	@go test -v -cover ./...
+
 test:
-	@go test -v -cover ./test/...
+	@go test -v ./...

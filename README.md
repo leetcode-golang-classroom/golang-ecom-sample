@@ -131,3 +131,27 @@ func failOnError(err error, msg string) {
 	}
 }
 ```
+### schema
+![schema](schema.png)
+
+### setup store
+
+### setup bcrypt
+
+```shell
+go get golang.org/x/crypto/bcrypt
+```
+
+```golang
+package auth
+
+import "golang.org/x/crypto/bcrypt"
+
+func HashPassword(password string) (string, error) {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hash), nil
+}
+```
