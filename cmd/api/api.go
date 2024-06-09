@@ -6,6 +6,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/leetcode-golang-classroom/golang-ecom-sample/service/cart"
+	"github.com/leetcode-golang-classroom/golang-ecom-sample/service/order"
 	"github.com/leetcode-golang-classroom/golang-ecom-sample/service/product"
 	"github.com/leetcode-golang-classroom/golang-ecom-sample/service/user"
 )
@@ -33,6 +35,10 @@ func (s *APIServer) Run() error {
 	productStore := product.NewStore(s.db)
 	productHandler := product.NewHandler(productStore)
 	productHandler.RegisterRoutes(subrouter)
+	// setup cart route
+	orderStore := order.NewStore(s.db)
+	cartHandler := cart.NewHandler(orderStore, productStore, userStore)
+	cartHandler.RegisterRoutes(subrouter)
 	log.Println("Listening on", s.addr)
 	return http.ListenAndServe(s.addr, router)
 }

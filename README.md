@@ -177,3 +177,15 @@ migrate-up:
 migrate-down:
   @go run cmd/migrate/main.go down
 ```
+
+## TODO
+
+in cart handler
+
+there are logic need to maintain in a transaction
+
+for  order-item quantity change and product quantity change
+
+current just handle this in map
+
+but need have concurrent problem
