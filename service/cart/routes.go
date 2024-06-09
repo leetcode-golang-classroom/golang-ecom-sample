@@ -1,6 +1,7 @@
 package cart
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
 
@@ -15,10 +16,11 @@ type Handler struct {
 	store        types.OrderStore
 	productStore types.ProductStore
 	userStore    types.UserStore
+	db           *sql.DB
 }
 
-func NewHandler(store types.OrderStore, productStore types.ProductStore, userStore types.UserStore) *Handler {
-	return &Handler{store: store, productStore: productStore, userStore: userStore}
+func NewHandler(db *sql.DB, store types.OrderStore, productStore types.ProductStore, userStore types.UserStore) *Handler {
+	return &Handler{db: db, store: store, productStore: productStore, userStore: userStore}
 }
 
 func (h *Handler) RegisterRoutes(router *mux.Router) {

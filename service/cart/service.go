@@ -29,30 +29,47 @@ func (h *Handler) createOrder(ps []types.Product, items []types.CartItem, userID
 	// calculate the total price
 	totalPrice := calculateTotalPrice(items, productMap)
 	// reduce quantity of products in db
+	tx, err := h.db.Begin()
+	if err != nil {
+		return 0, 0, err
+	}
 	for _, item := range items {
 		product := productMap[item.ProductID]
 		product.Quantity -= item.Quantity
 
-		h.productStore.UpdateProduct(product)
+		err = h.productStore.UpdateProduct(tx, product)
+		if err != nil {
+			tx.Rollback()
+			return 0, 0, err
+		}
 	}
+
 	// create the order
-	orderID, err := h.store.CreateOrder(types.Order{
+	orderID, err := h.store.CreateOrder(tx, types.Order{
 		UserID:  userID,
 		Total:   totalPrice,
 		Status:  "pending",
 		Address: "some address",
 	})
 	if err != nil {
+		tx.Rollback()
 		return 0, 0, err
 	}
 	// create order items
 	for _, item := range items {
-		h.store.CreateOrderItem(types.OrderItem{
+		err = h.store.CreateOrderItem(tx, types.OrderItem{
 			OrderID:   orderID,
 			ProductID: item.ProductID,
 			Quantity:  item.Quantity,
 			Price:     productMap[item.ProductID].Price,
 		})
+		if err != nil {
+			tx.Rollback()
+			return 0, 0, err
+		}
+	}
+	if err = tx.Commit(); err != nil {
+		return 0, 0, err
 	}
 	return orderID, totalPrice, nil
 }

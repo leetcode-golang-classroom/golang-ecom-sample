@@ -1,6 +1,9 @@
 package types
 
-import "time"
+import (
+	"database/sql"
+	"time"
+)
 
 type RegisterUserPayload struct {
 	FirstName string `json:"firstName" validate:"required"`
@@ -50,7 +53,7 @@ type ProductStore interface {
 	GetProducts() ([]Product, error)
 	GetProductsByIDs(ps []int) ([]Product, error)
 	CreateProduct(Product) error
-	UpdateProduct(Product) error
+	UpdateProduct(*sql.Tx, Product) error
 }
 type Order struct {
 	ID        int       `json:"id"`
@@ -70,8 +73,8 @@ type OrderItem struct {
 	CreatedAt time.Time `json:"createdAt"`
 }
 type OrderStore interface {
-	CreateOrder(Order) (int, error)
-	CreateOrderItem(OrderItem) error
+	CreateOrder(*sql.Tx, Order) (int, error)
+	CreateOrderItem(*sql.Tx, OrderItem) error
 }
 type CartItem struct {
 	ProductID int `json:"productID"`
