@@ -13,11 +13,11 @@ import (
 )
 
 func main() {
-	db, err := db.NewMYSQLStorage(mysqlCfg.Config{
-		User:                 config.C.MYSQL_USER,
-		Passwd:               config.C.MYSQL_PASSWORD,
-		Addr:                 config.C.MYSQL_ADDR,
-		DBName:               config.C.MYSQL_DATABASE,
+	dbInstance, err := db.NewMYSQLStorage(mysqlCfg.Config{
+		User:                 config.C.MysqlUser,
+		Passwd:               config.C.MysqlPassword,
+		Addr:                 config.C.MysqlAddr,
+		DBName:               config.C.MysqlDatabase,
 		Net:                  "tcp",
 		AllowNativePasswords: true,
 		ParseTime:            true,
@@ -25,7 +25,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	driver, err := mysql.WithInstance(db, &mysql.Config{})
+	driver, err := mysql.WithInstance(dbInstance, &mysql.Config{})
 	if err != nil {
 		log.Fatal(err)
 	}

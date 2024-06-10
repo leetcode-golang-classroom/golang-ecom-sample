@@ -14,10 +14,10 @@ import (
 func main() {
 	log.Println(config.C)
 	dbInstance, err := db.NewMYSQLStorage(mysql.Config{
-		User:                 config.C.MYSQL_USER,
-		Passwd:               config.C.MYSQL_PASSWORD,
-		Addr:                 config.C.MYSQL_ADDR,
-		DBName:               config.C.MYSQL_DATABASE,
+		User:                 config.C.MysqlUser,
+		Passwd:               config.C.MysqlPassword,
+		Addr:                 config.C.MysqlAddr,
+		DBName:               config.C.MysqlDatabase,
 		Net:                  "tcp",
 		AllowNativePasswords: true,
 		ParseTime:            true,
@@ -26,7 +26,7 @@ func main() {
 		log.Fatal(err)
 	}
 	initStorage(dbInstance)
-	server := api.NewAPIServer(fmt.Sprintf(":%s", config.C.PORT), dbInstance)
+	server := api.NewAPIServer(fmt.Sprintf(":%s", config.C.Port), dbInstance)
 	if err := server.Run(); err != nil {
 		log.Fatal(err)
 	}
