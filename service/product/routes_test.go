@@ -15,7 +15,8 @@ import (
 func TestProductServiceHandler(t *testing.T) {
 	// mock store
 	productStore := &mockProductStore{}
-	handler := NewHandler(productStore)
+	userStore := &mockUserStore{}
+	handler := NewHandler(productStore, userStore)
 	t.Run("should failed the product payload is invalid", func(t *testing.T) {
 		payload := types.CreateProductPayload{
 			Name:        "",
@@ -75,5 +76,19 @@ func (m *mockProductStore) GetProductsByIDs(ps []int) ([]types.Product, error) {
 }
 
 func (m *mockProductStore) UpdateProduct(tx *sql.Tx, product types.Product) error {
+	return nil
+}
+
+type mockUserStore struct{}
+
+func (u *mockUserStore) GetUserByEmail(email string) (*types.User, error) {
+	return nil, nil
+}
+
+func (u *mockUserStore) GetUserByID(id int) (*types.User, error) {
+	return nil, nil
+}
+
+func (u *mockUserStore) CreateUser(user types.User) error {
 	return nil
 }

@@ -25,8 +25,8 @@ func CreateJWT(secret []byte, userID int) (string, error) {
 	}
 	expiration := time.Second * time.Duration(JWTExpirationInSeconds)
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"userID":    strconv.Itoa(userID),
-		"expiredAt": time.Now().Add(expiration).Unix(),
+		"userID": strconv.Itoa(userID),
+		"exp":    time.Now().Add(expiration).Unix(),
 	})
 	tokenString, err := token.SignedString(secret)
 	if err != nil {
