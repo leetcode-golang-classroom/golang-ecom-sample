@@ -1,7 +1,9 @@
 package cart
 
 import (
+	"database/sql"
 	"fmt"
+	"log"
 
 	"github.com/leetcode-golang-classroom/golang-ecom-sample/types"
 )
@@ -39,7 +41,7 @@ func (h *Handler) createOrder(ps []types.Product, items []types.CartItem, userID
 
 		err = h.productStore.UpdateProduct(tx, product)
 		if err != nil {
-			tx.Rollback()
+			handleTxRollback(tx)
 			return 0, 0, err
 		}
 	}
@@ -52,7 +54,7 @@ func (h *Handler) createOrder(ps []types.Product, items []types.CartItem, userID
 		Address: "some address",
 	})
 	if err != nil {
-		tx.Rollback()
+		handleTxRollback(tx)
 		return 0, 0, err
 	}
 	// create order items
@@ -64,7 +66,7 @@ func (h *Handler) createOrder(ps []types.Product, items []types.CartItem, userID
 			Price:     productMap[item.ProductID].Price,
 		})
 		if err != nil {
-			tx.Rollback()
+			handleTxRollback(tx)
 			return 0, 0, err
 		}
 	}
@@ -98,4 +100,11 @@ func calculateTotalPrice(cartItems []types.CartItem, products map[int]types.Prod
 		total += product.Price * float64(item.Quantity)
 	}
 	return total
+}
+
+func handleTxRollback(tx *sql.Tx) {
+	err := tx.Rollback()
+	if err != nil {
+		log.Printf("tx Rollback err: %v", err)
+	}
 }

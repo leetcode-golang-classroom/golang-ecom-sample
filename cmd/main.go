@@ -7,7 +7,7 @@ import (
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/leetcode-golang-classroom/golang-ecom-sample/cmd/api"
-	config "github.com/leetcode-golang-classroom/golang-ecom-sample/config"
+	"github.com/leetcode-golang-classroom/golang-ecom-sample/config"
 	"github.com/leetcode-golang-classroom/golang-ecom-sample/db"
 )
 

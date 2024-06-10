@@ -67,28 +67,28 @@ func (m *mockProductStore) GetProducts() ([]types.Product, error) {
 	return nil, nil
 }
 
-func (m *mockProductStore) CreateProduct(product types.Product) error {
+func (m *mockProductStore) CreateProduct(_product types.Product) error {
 	return nil
 }
 
-func (m *mockProductStore) GetProductsByIDs(ps []int) ([]types.Product, error) {
+func (m *mockProductStore) GetProductsByIDs(_ps []int) ([]types.Product, error) {
 	return nil, nil
 }
 
-func (m *mockProductStore) UpdateProduct(tx *sql.Tx, product types.Product) error {
+func (m *mockProductStore) UpdateProduct(_tx *sql.Tx, product types.Product) error {
 	return nil
 }
 
 type mockUserStore struct{}
 
-func (u *mockUserStore) GetUserByEmail(email string) (*types.User, error) {
+func (u *mockUserStore) GetUserByEmail(_email string) (*types.User, error) {
 	return nil, nil
 }
 
-func (u *mockUserStore) GetUserByID(id int) (*types.User, error) {
+func (u *mockUserStore) GetUserByID(_id int) (*types.User, error) {
 	return nil, nil
 }
 
-func (u *mockUserStore) CreateUser(user types.User) error {
+func (u *mockUserStore) CreateUser(_user types.User) error {
 	return nil
 }
