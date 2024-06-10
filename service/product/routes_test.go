@@ -89,6 +89,6 @@ func (u *mockUserStore) GetUserByID(int) (*types.User, error) {
 	return nil, nil
 }
 
-func (u *mockUserStore) CreateUser(_user types.User) error {
+func (u *mockUserStore) CreateUser(types.User) error {
 	return nil
 }
