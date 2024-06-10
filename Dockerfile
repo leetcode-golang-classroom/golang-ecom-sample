@@ -1,4 +1,4 @@
-FROM golang:1.20.0 AS build-stage
+FROM golang:1.22.0 AS build-stage
 WORKDIR /app
 COPY go.mod go.sum ./
 ADD . ./

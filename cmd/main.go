@@ -12,6 +12,7 @@ import (
 )
 
 func main() {
+	log.Println(config.C)
 	db, err := db.NewMYSQLStorage(mysql.Config{
 		User:                 config.C.MYSQL_USER,
 		Passwd:               config.C.MYSQL_PASSWORD,
