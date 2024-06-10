@@ -109,16 +109,21 @@ type Config struct {
 var C *Config
 
 func init() {
-	v := viper.New()
 	v.AddConfigPath(".")
 	v.SetConfigName(".env")
 	v.SetConfigType("env")
+	v.AutomaticEnv()
+	v.BindEnv("PORT")
+	v.BindEnv("MYSQL_DATABASE")
+	v.BindEnv("MYSQL_USER")
+	v.BindEnv("MYSQL_PASSWORD")
+	v.BindEnv("MYSQL_ADDR")
+	v.BindEnv("JWT_SECRET")
+	v.BindEnv("JWT_EXPIRATION_IN_SECONDS")
 	err := v.ReadInConfig()
 	if err != nil {
-		failOnError(err, "Failed to read config")
+		log.Println("load from environment variable")
 	}
-	v.AutomaticEnv()
-
 	err = v.Unmarshal(&C)
 	if err != nil {
 		failOnError(err, "Failed to read enivroment")
