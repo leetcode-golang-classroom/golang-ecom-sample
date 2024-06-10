@@ -70,7 +70,7 @@ func (s *Store) GetProductsByIDs(productIDs []int) ([]types.Product, error) {
 	if err != nil {
 		return nil, err
 	}
-	products := []types.Product{}
+	var products []types.Product
 	for rows.Next() {
 		p, err := scanRowsIntoProduct(rows)
 		if err != nil {

@@ -1,8 +1,8 @@
 package user
 
 import (
+	"errors"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
@@ -34,11 +34,10 @@ func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 	}
 	// validate payload
 	if err := utils.Validate.Struct(payload); err != nil {
-		errors, ok := err.(validator.ValidationErrors)
-		if !ok {
-			log.Fatal("cast validator error failed")
+		var valErrs validator.ValidationErrors
+		if errors.As(err, &valErrs) {
+			utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid payload %v", valErrs))
 		}
-		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid payload %v", errors))
 		return
 	}
 	u, err := h.store.GetUserByEmail(payload.Email)
@@ -68,11 +67,10 @@ func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
 	}
 	// validate payload
 	if err := utils.Validate.Struct(payload); err != nil {
-		errors, ok := err.(validator.ValidationErrors)
-		if !ok {
-			log.Fatal("cast validator error failed")
+		var valErrs validator.ValidationErrors
+		if errors.As(err, &valErrs) {
+			utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid payload %v", valErrs))
 		}
-		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid payload %v", errors))
 		return
 	}
 	// check if user exists

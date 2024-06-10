@@ -2,8 +2,8 @@ package cart
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
@@ -36,11 +36,10 @@ func (h *Handler) handleCheckout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err := utils.Validate.Struct(cart); err != nil {
-		errors, ok := err.(validator.ValidationErrors)
-		if !ok {
-			log.Fatal("cast validator error failed")
+		var valErrs validator.ValidationErrors
+		if errors.As(err, &valErrs) {
+			utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid payload: %v", valErrs))
 		}
-		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid payload: %v", errors))
 		return
 	}
 
