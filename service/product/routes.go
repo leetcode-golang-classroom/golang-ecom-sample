@@ -31,7 +31,7 @@ func (h *Handler) handleGetProducts(w http.ResponseWriter, r *http.Request) {
 		utils.WriteError(w, http.StatusInternalServerError, err)
 		return
 	}
-	utils.WriteJSON(w, http.StatusOK, ps)
+	utils.FailOnError(utils.WriteJSON(w, http.StatusOK, ps), "utilsWriteJSON err:")
 }
 
 func (h *Handler) handleCreateProduct(w http.ResponseWriter, r *http.Request) {
@@ -59,5 +59,5 @@ func (h *Handler) handleCreateProduct(w http.ResponseWriter, r *http.Request) {
 		utils.WriteError(w, http.StatusInternalServerError, err)
 		return
 	}
-	utils.WriteJSON(w, http.StatusCreated, nil)
+	utils.FailOnError(utils.WriteJSON(w, http.StatusCreated, nil), "utils.WriteJSON err:")
 }

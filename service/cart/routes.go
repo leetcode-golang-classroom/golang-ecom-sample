@@ -56,8 +56,8 @@ func (h *Handler) handleCheckout(w http.ResponseWriter, r *http.Request) {
 		utils.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	utils.WriteJSON(w, http.StatusCreated, map[string]any{
+	utils.FailOnError(utils.WriteJSON(w, http.StatusCreated, map[string]any{
 		"total_price": totalPrice,
 		"order_id":    orderID,
-	})
+	}), "utilsWriteJSON err:")
 }

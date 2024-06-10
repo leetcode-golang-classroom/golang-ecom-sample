@@ -52,7 +52,7 @@ func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 		utils.WriteError(w, http.StatusInternalServerError, err)
 		return
 	}
-	utils.WriteJSON(w, http.StatusOK, map[string]string{"token": token})
+	utils.FailOnError(utils.WriteJSON(w, http.StatusOK, map[string]string{"token": token}), "utilsWriteJSON err:")
 }
 
 func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
@@ -91,5 +91,5 @@ func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
 		utils.WriteError(w, http.StatusInternalServerError, err)
 		return
 	}
-	utils.WriteJSON(w, http.StatusCreated, nil)
+	utils.FailOnError(utils.WriteJSON(w, http.StatusCreated, nil), "utilsWriteJSON err:")
 }
