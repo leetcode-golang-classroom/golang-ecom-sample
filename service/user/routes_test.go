@@ -61,7 +61,7 @@ func TestUserServiceHandler(t *testing.T) {
 type mockUserStore struct{}
 
 func (m *mockUserStore) GetUserByEmail(string) (*types.User, error) {
-	return nil, fmt.Errorf("User not found")
+	return nil, fmt.Errorf("user not found")
 }
 
 func (m *mockUserStore) GetUserByID(int) (*types.User, error) {

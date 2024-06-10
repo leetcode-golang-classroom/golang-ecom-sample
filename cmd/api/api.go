@@ -12,19 +12,19 @@ import (
 	"github.com/leetcode-golang-classroom/golang-ecom-sample/service/user"
 )
 
-type APIServer struct {
+type HttpApiServer struct {
 	addr string
 	db   *sql.DB
 }
 
-func NewAPIServer(addr string, db *sql.DB) *APIServer {
-	return &APIServer{
+func NewAPIServer(addr string, db *sql.DB) *HttpApiServer {
+	return &HttpApiServer{
 		addr: addr,
 		db:   db,
 	}
 }
 
-func (s *APIServer) Run() error {
+func (s *HttpApiServer) Run() error {
 	router := mux.NewRouter()
 	subrouter := router.PathPrefix("/api/v1").Subrouter()
 	// setup user route
